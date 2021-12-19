@@ -25,6 +25,7 @@ import kotlin.reflect.KFunction;
 import kotlin.reflect.jvm.ReflectJvmMapping;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -51,6 +52,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ConcurrentReferenceHashMap;
 import org.springframework.util.StringUtils;
+
+import javax.sql.DataSource;
 
 /**
  * Base class for transactional aspects, such as the {@link TransactionInterceptor}
@@ -334,6 +337,17 @@ public abstract class TransactionAspectSupport implements BeanFactoryAware, Init
 		final TransactionAttribute txAttr = (tas != null ? tas.getTransactionAttribute(method, targetClass) : null);
 		final TransactionManager tm = determineTransactionManager(txAttr);
 
+		logger.info("线程[" + Thread.currentThread() + "]在调用" + method.getName()
+						+ "方法时使用的事务管理器(TransactionManager)哈希值=" + tm.hashCode());
+
+/*
+		DataSourceTransactionManager manager = (DataSourceTransactionManager) tm;
+		DataSource dataSource = manager.getDataSource();
+
+		logger.info("线程[" + Thread.currentThread() + "]在调用" + method.getName()
+				+ "方法时使用的事务管理器(TransactionManager)哈希值=" + manager.hashCode()
+				+ ", 使用的数据源(dataSource)哈希值=" + dataSource.hashCode());
+*/
 		if (this.reactiveAdapterRegistry != null && tm instanceof ReactiveTransactionManager) {
 			ReactiveTransactionSupport txSupport = this.transactionSupportCache.computeIfAbsent(method, key -> {
 				if (KotlinDetector.isKotlinType(method.getDeclaringClass()) && KotlinDelegate.isSuspend(method)) {

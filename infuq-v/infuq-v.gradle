@@ -1,7 +1,9 @@
-description = "infuq"
+description = "infuq-v"
 
 
 dependencies {
+
+
     compile 'org.aspectj:aspectjweaver:1.6.8',
     compile(project(":spring-beans"))
     compile(project(":spring-aspects"))

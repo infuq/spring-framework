@@ -196,6 +196,10 @@ public abstract class TransactionSynchronizationManager {
 			logger.trace("Bound value [" + value + "] for key [" + actualKey + "] to thread [" +
 					Thread.currentThread().getName() + "]");
 		}
+
+
+//		logger.info("线程[" + Thread.currentThread().getName() + "]ThreadLocalMap中的数据" + map);
+
 	}
 
 	/**

@@ -32,8 +32,11 @@ include "spring-websocket"
 include "framework-bom"
 include "integration-tests"
 include 'infuq-v'
+include 'infuq-t'
 
 rootProject.name = "spring"
 rootProject.children.each {project ->
 	project.buildFileName = "${project.name}.gradle"
 }
+
+

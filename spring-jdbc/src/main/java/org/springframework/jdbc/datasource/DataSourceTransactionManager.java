@@ -268,7 +268,11 @@ public class DataSourceTransactionManager extends AbstractPlatformTransactionMan
 			}
 
 			txObject.getConnectionHolder().setSynchronizedWithTransaction(true);
+
 			con = txObject.getConnectionHolder().getConnection();
+
+
+			logger.info("线程[" + Thread.currentThread() + "]从事务管理器(哈希值="+this.hashCode()+")对应的数据源(哈希值="+this.getDataSource().hashCode()+")中获取一个连接,连接的哈希值=" + con.hashCode());
 
 			Integer previousIsolationLevel = DataSourceUtils.prepareConnectionForTransaction(con, definition);
 			txObject.setPreviousIsolationLevel(previousIsolationLevel);
@@ -328,6 +332,7 @@ public class DataSourceTransactionManager extends AbstractPlatformTransactionMan
 			logger.debug("Committing JDBC transaction on Connection [" + con + "]");
 		}
 		try {
+			logger.info("连接(哈希值="+con.hashCode()+")进行事务提交");
 			con.commit();
 		}
 		catch (SQLException ex) {
