@@ -20,29 +20,32 @@ import javax.sql.DataSource;
 public class AppConfig {
 
 
-    @Bean
-    public DataSource druidDataSource() {
-        DruidDataSource dataSource = new DruidDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-//        dataSource.setUrl("jdbc:mysql://localhost:3306/mysql?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/mysql?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true");
-        dataSource.setUsername("root");
-        dataSource.setPassword("9527");
-
-        return dataSource;
-    }
+	private final boolean mac = true;
 
 
-    @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/infuq_example?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true");
-        dataSource.setUsername("root");
-        dataSource.setPassword("9527");
+	@Bean
+	public DataSource druidDataSource() {
+		DruidDataSource dataSource = new DruidDataSource();
+		dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+		dataSource.setUrl("jdbc:mysql://localhost:3306/mysql?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true");
+		dataSource.setUsername("root");
+		dataSource.setPassword("9527");
+		if (mac) dataSource.setPassword("xV9527#tEhj");
+		return dataSource;
+	}
 
-        return dataSource;
-    }
+
+	@Bean
+	public DataSource dataSource() {
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+		dataSource.setUrl("jdbc:mysql://localhost:3306/test?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true");
+		dataSource.setUsername("root");
+		dataSource.setPassword("9527");
+		if (mac) dataSource.setPassword("xV9527#tEhj");
+
+		return dataSource;
+	}
 
 
     @Bean
