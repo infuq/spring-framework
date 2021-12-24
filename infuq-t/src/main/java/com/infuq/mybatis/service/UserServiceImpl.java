@@ -25,8 +25,8 @@ public class UserServiceImpl implements UserService, ApplicationContextAware {
 
 //		getAllAddress();
 
-        UserService userService = applicationContext.getBean(UserService.class);
-        userService.getAllAddress();
+//        UserService userService = applicationContext.getBean(UserService.class);
+//        userService.getAllAddress();
 
         return null;
     }

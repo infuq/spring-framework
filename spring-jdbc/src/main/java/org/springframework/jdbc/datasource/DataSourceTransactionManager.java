@@ -272,7 +272,7 @@ public class DataSourceTransactionManager extends AbstractPlatformTransactionMan
 			con = txObject.getConnectionHolder().getConnection();
 
 
-			logger.info("线程[" + Thread.currentThread() + "]从事务管理器(哈希值="+this.hashCode()+")对应的数据源(哈希值="+this.getDataSource().hashCode()+")中获取一个连接,连接的哈希值=" + con.hashCode());
+			System.out.println("线程[" + Thread.currentThread() + "]从事务管理器(@"+Integer.toHexString(this.hashCode())+")对应的数据源(@"+Integer.toHexString(this.getDataSource().hashCode())+")中获取一个连接(@" + Integer.toHexString(con.hashCode()) + ")");
 
 			Integer previousIsolationLevel = DataSourceUtils.prepareConnectionForTransaction(con, definition);
 			txObject.setPreviousIsolationLevel(previousIsolationLevel);
@@ -332,7 +332,7 @@ public class DataSourceTransactionManager extends AbstractPlatformTransactionMan
 			logger.debug("Committing JDBC transaction on Connection [" + con + "]");
 		}
 		try {
-			logger.info("连接(哈希值="+con.hashCode()+")进行事务提交");
+			System.out.println("连接(@"+Integer.toHexString(con.hashCode())+")进行事务提交");
 			con.commit();
 		}
 		catch (SQLException ex) {
@@ -417,7 +417,8 @@ public class DataSourceTransactionManager extends AbstractPlatformTransactionMan
 
 		if (isEnforceReadOnly() && definition.isReadOnly()) {
 			try (Statement stmt = con.createStatement()) {
-				stmt.executeUpdate("SET TRANSACTION READ ONLY");
+				String sql = "SET TRANSACTION READ ONLY";
+				stmt.executeUpdate(sql);
 			}
 		}
 	}

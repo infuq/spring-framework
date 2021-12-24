@@ -18,15 +18,15 @@ public class Main {
 
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
 
-		DataSourceTransactionManager druidTransactionManager = (DataSourceTransactionManager) applicationContext.getBean("druidTransactionManager");
+//		DataSourceTransactionManager druidTransactionManager = (DataSourceTransactionManager) applicationContext.getBean("druidTransactionManager");
 
-		DataSourceTransactionManager transactionManager = (DataSourceTransactionManager) applicationContext.getBean("transactionManager");
+//		DataSourceTransactionManager transactionManager = (DataSourceTransactionManager) applicationContext.getBean("transactionManager");
 
-		logger.info("事务管理器(druidTransactionManager)哈希值=" + druidTransactionManager.hashCode());
-		logger.info("事务管理器(druidTransactionManager)的数据源哈希值=" + druidTransactionManager.getDataSource().hashCode());
+//		System.out.println("事务管理器(druidTransactionManager)@" + Integer.toHexString(druidTransactionManager.hashCode()));
+//		System.out.println("事务管理器(druidTransactionManager)的数据源@" + Integer.toHexString(druidTransactionManager.getDataSource().hashCode()));
 
-		logger.info("事务管理器(transactionManager)哈希值=" + transactionManager.hashCode());
-		logger.info("事务管理器(transactionManager)的数据源哈希值=" + transactionManager.getDataSource().hashCode());
+//		System.out.println("事务管理器(transactionManager)@" + Integer.toHexString(transactionManager.hashCode()));
+//		System.out.println("事务管理器(transactionManager)的数据源@" + Integer.toHexString(transactionManager.getDataSource().hashCode()));
 
 
 
