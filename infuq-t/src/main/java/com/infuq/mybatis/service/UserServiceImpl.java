@@ -1,5 +1,6 @@
 package com.infuq.mybatis.service;
 
+import com.infuq.mybatis.entity.Address;
 import com.infuq.mybatis.mapper.UserMapper;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class UserServiceImpl implements UserService, ApplicationContextAware {
 
     @Transactional(transactionManager = "druidTransactionManager")
     @Override
-    public List<User> getList() {
+    public List<Address> getList() {
 
         System.out.println(userMapper.getList());
 
@@ -33,7 +34,7 @@ public class UserServiceImpl implements UserService, ApplicationContextAware {
 
     @Transactional(transactionManager = "transactionManager")
     @Override
-    public List<User> getAllAddress() {
+    public List<Address> getAllAddress() {
 
         System.out.println(userMapper.getAllAddress());
 

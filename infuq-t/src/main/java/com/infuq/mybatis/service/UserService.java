@@ -1,11 +1,13 @@
 package com.infuq.mybatis.service;
 
+import com.infuq.mybatis.entity.Address;
+
 import java.util.List;
 
 public interface UserService {
 
-    List<User> getList();
+    List<Address> getList();
 
-    List<User> getAllAddress();
+    List<Address> getAllAddress();
 
 }
