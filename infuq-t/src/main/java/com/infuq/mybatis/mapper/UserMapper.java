@@ -1,6 +1,5 @@
 package com.infuq.mybatis.mapper;
 
-import com.infuq.mybatis.entity.User;
 import com.infuq.mybatis.entity.Address;
 import org.apache.ibatis.annotations.Select;
 

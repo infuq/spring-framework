@@ -1,6 +1,5 @@
 package com.infuq.mybatis.service;
 
-import com.infuq.mybatis.entity.User;
 import com.infuq.mybatis.mapper.UserMapper;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
