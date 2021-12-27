@@ -24,8 +24,12 @@ public class UserServiceImpl implements UserService, ApplicationContextAware {
     @Override
     public void getList() {
 
-        System.out.println(primaryUserMapper.getList());
-        System.out.println(secondUserMapper.getList());
+		System.out.println("结果2[" + secondUserMapper.insert() + "]");
+        System.out.println("结果1[" + primaryUserMapper.insert() + "]");
+
+//		System.out.println("结果2[" + secondUserMapper.getList() + "]");
+//		System.out.println("结果1[" + primaryUserMapper.getList() + "]");
+
 
 
     }

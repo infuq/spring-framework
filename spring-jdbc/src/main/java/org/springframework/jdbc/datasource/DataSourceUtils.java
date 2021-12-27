@@ -108,12 +108,20 @@ public abstract class DataSourceUtils {
 				logger.debug("Fetching resumed JDBC Connection from DataSource");
 				conHolder.setConnection(fetchConnection(dataSource));
 			}
-			return conHolder.getConnection();
+
+			Connection con = conHolder.getConnection();
+			System.out.println("线程["+Thread.currentThread()+"]根据数据源(@"+Integer.toHexString(dataSource.hashCode())+")从上下文中获取一个连接(@"+Integer.toHexString(con.hashCode())+")");
+
+
+			return con;
 		}
 		// Else we either got no holder or an empty thread-bound holder here.
 
 		logger.debug("Fetching JDBC Connection from DataSource");
 		Connection con = fetchConnection(dataSource);
+
+		System.out.println("线程["+Thread.currentThread()+"]从数据源(@"+Integer.toHexString(dataSource.hashCode())+")中获取一个新连接(@"+Integer.toHexString(con.hashCode())+")");
+
 
 		if (TransactionSynchronizationManager.isSynchronizationActive()) {
 			try {
@@ -131,6 +139,8 @@ public abstract class DataSourceUtils {
 						new ConnectionSynchronization(holderToUse, dataSource));
 				holderToUse.setSynchronizedWithTransaction(true);
 				if (holderToUse != conHolder) {
+					System.out.println("线程["+Thread.currentThread()+"]将数据源(@"+Integer.toHexString(dataSource.hashCode())+")->连接(@"+Integer.toHexString(con.hashCode())+")放入上下文");
+
 					TransactionSynchronizationManager.bindResource(dataSource, holderToUse);
 				}
 			}
