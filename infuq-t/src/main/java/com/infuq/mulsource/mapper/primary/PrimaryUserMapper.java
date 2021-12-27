@@ -15,7 +15,7 @@ public interface PrimaryUserMapper {
     @Select("select * from test_0.t_1")
     List<Address> getAllAddress();
 
-	@Insert("insert into test_0.t_0(id,address) values(1,'zhejiang')")
+	@Insert("insert into test_0.t_0(id,address) values(13,'zhejiang')")
 	int insert();
 
 }

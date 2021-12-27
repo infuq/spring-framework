@@ -1,7 +1,6 @@
 package com.infuq.mulsource;
 
-import com.infuq.mulsource.config.PrimaryDataSourceConfig;
-import com.infuq.mulsource.config.SecondDataSourceConfig;
+
 import com.infuq.mulsource.service.UserService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -17,9 +16,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class,
-				PrimaryDataSourceConfig.class,
-				SecondDataSourceConfig.class);
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
 
 
         applicationContext.getBean(UserService.class).getList();
