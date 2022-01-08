@@ -20,7 +20,17 @@ public class UserServiceImpl implements UserService, ApplicationContextAware {
     @Override
     public void getList() {
 
+		System.out.println("第一次查询");
         System.out.println(userMapper.getList());
+
+//		try {
+//			Thread.sleep(310 * 1000);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+//		System.out.println("第二次查询");
+//		System.out.println(userMapper.getList());
+
 
 //		getAllAddress();
 

@@ -131,6 +131,7 @@ public abstract class TransactionSynchronizationUtils {
 	public static void invokeAfterCommit(@Nullable List<TransactionSynchronization> synchronizations) {
 		if (synchronizations != null) {
 			for (TransactionSynchronization synchronization : synchronizations) {
+				// 调用程序员设置的方法
 				synchronization.afterCommit();
 			}
 		}
