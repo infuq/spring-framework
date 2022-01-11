@@ -7,6 +7,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
+import java.util.Random;
+
 
 public class Main {
 
@@ -29,8 +31,28 @@ public class Main {
 //		System.out.println("事务管理器(transactionManager)的数据源@" + Integer.toHexString(transactionManager.getDataSource().hashCode()));
 
 
+		applicationContext.getBean(UserService.class).getList();
 
-        applicationContext.getBean(UserService.class).getList();
+
+		/*
+		while (true) {
+			for (int i = 0; i < 15; i++) {
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							applicationContext.getBean(UserService.class).getList();
+						} catch (Exception ignored) {
+							ignored.printStackTrace();
+						}
+					}
+				}).start();
+			}
+
+			Thread.sleep(2000);
+		}
+		*/
+
 
 //        System.in.read();
 

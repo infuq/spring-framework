@@ -1,7 +1,7 @@
 package com.infuq.mybatis.service;
 
 
-public interface UserService {
+public interface BookService {
 
     void getList() throws Exception;
 

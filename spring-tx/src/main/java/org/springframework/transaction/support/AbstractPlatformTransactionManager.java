@@ -792,6 +792,7 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 
 		}
 		finally {
+			// 数据库连接放入数据库连接池
 			cleanupAfterCompletion(status);
 		}
 	}
