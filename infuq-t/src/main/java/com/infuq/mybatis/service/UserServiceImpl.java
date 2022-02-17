@@ -32,7 +32,12 @@ public class UserServiceImpl implements UserService, ApplicationContextAware {
 
     }
 
-    @Override
+	@Override
+	public int update() {
+		return bookService.update();
+	}
+
+	@Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }

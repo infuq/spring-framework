@@ -34,26 +34,6 @@ public class Main {
 		applicationContext.getBean(UserService.class).getList();
 
 
-		/*
-		while (true) {
-			for (int i = 0; i < 15; i++) {
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							applicationContext.getBean(UserService.class).getList();
-						} catch (Exception ignored) {
-							ignored.printStackTrace();
-						}
-					}
-				}).start();
-			}
-
-			Thread.sleep(2000);
-		}
-		*/
-
-
 //        System.in.read();
 
     }

@@ -7,4 +7,6 @@ public interface BookService {
 
     void getAllAddress();
 
+	int update();
+
 }

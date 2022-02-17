@@ -7,4 +7,6 @@ public interface UserService {
 
     void getAllAddress();
 
+	int update();
+
 }

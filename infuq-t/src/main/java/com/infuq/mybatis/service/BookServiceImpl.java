@@ -22,11 +22,14 @@ public class BookServiceImpl implements BookService, ApplicationContextAware {
     @Override
     public void getList() throws Exception {
 
-		System.out.println("第一次查询");
+//		System.out.println("休眠");
+//		Thread.sleep(30000);
+		System.out.println(Thread.currentThread().getName() + "第一次查询");
         System.out.println(userMapper.getList());
 
+//		Thread.sleep(30000);
 
-//		System.out.println("第二次查询");
+//		System.out.println(Thread.currentThread().getName() + "第二次查询");
 //		System.out.println(userMapper.getList());
 
 
@@ -48,7 +51,12 @@ public class BookServiceImpl implements BookService, ApplicationContextAware {
     }
 
 
-    @Override
+	@Override
+	public int update() {
+		return userMapper.update();
+	}
+
+	@Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
