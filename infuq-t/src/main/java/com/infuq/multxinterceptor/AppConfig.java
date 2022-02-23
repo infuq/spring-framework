@@ -1,8 +1,8 @@
 package com.infuq.multxinterceptor;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.infuq.mybatis.service.UserService;
-import com.infuq.mybatis.service.UserServiceImpl;
+import com.infuq.multxinterceptor.service.UserService;
+import com.infuq.multxinterceptor.service.UserServiceImpl;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @EnableTransactionManagement
-@MapperScan("com.infuq.mybatis.mapper")
+@MapperScan("com.infuq.multxinterceptor.mapper")
 @ComponentScan
 public class AppConfig {
 

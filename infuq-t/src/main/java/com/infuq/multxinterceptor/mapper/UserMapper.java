@@ -1,6 +1,6 @@
 package com.infuq.multxinterceptor.mapper;
 
-import com.infuq.mybatis.entity.Address;
+import com.infuq.multxinterceptor.entity.Address;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -19,7 +19,7 @@ public interface UserMapper {
     @Select("select * from test_1.t_2")
     List<Address> getAllAddress();
 
-	@Update("update test_0.t_0 set address=\"秋天\" where id=12")
+	@Update("update test_0.t_0 set address=\"北京-上海2\" where id=12")
 	int update();
 
 	@Options(flushCache = Options.FlushCachePolicy.TRUE)

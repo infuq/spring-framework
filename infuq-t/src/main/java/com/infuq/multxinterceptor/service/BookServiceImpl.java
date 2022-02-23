@@ -1,7 +1,7 @@
 package com.infuq.multxinterceptor.service;
 
 
-import com.infuq.mybatis.mapper.UserMapper;
+import com.infuq.multxinterceptor.mapper.UserMapper;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -58,7 +58,7 @@ public class BookServiceImpl implements BookService, ApplicationContextAware {
 
 		System.out.println(userMapper.getList());
 		System.out.println(userMapper.update());
-		System.out.println(userMapper.getList());
+		System.out.println(userMapper.tmp());
 
 		return 1;
 	}
