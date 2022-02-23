@@ -1,4 +1,4 @@
-package com.infuq.mybatis;
+package com.infuq.multxinterceptor;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.infuq.mybatis.service.UserService;
@@ -93,6 +93,53 @@ public class AppConfig {
     public UserService userService() {
         return new UserServiceImpl();
     }
+
+
+	@Bean
+	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+	public BeanFactoryTransactionAttributeSourceAdvisor myTransactionAdvisor(
+			TransactionAttributeSource txSource,
+			TransactionInterceptor txAdvice) {
+
+		BeanFactoryTransactionAttributeSourceAdvisor advisor = new BeanFactoryTransactionAttributeSourceAdvisor();
+		advisor.setTransactionAttributeSource(txSource);
+		advisor.setAdvice(txAdvice);
+
+		return advisor;
+	}
+
+	@Bean
+	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+	public TransactionAttributeSource txSource() {
+		NameMatchTransactionAttributeSource source = new NameMatchTransactionAttributeSource();
+
+		RuleBasedTransactionAttribute readOnlyTx = new RuleBasedTransactionAttribute();
+		readOnlyTx.setReadOnly(true);
+		readOnlyTx.setPropagationBehavior(TransactionDefinition.PROPAGATION_NOT_SUPPORTED);
+
+		RuleBasedTransactionAttribute requiredTx = new RuleBasedTransactionAttribute();
+		requiredTx.setRollbackRules(Collections.singletonList(new RollbackRuleAttribute(Exception.class)));
+		requiredTx.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		requiredTx.setTimeout(300);
+
+		Map<String, TransactionAttribute> txMap = new HashMap<>();
+		txMap.put("add*", 		requiredTx);
+		txMap.put("save*", 		requiredTx);
+		txMap.put("insert*", 	requiredTx);
+		txMap.put("update*", 	requiredTx);
+		txMap.put("delete*", 	requiredTx);
+		txMap.put("tmp*", 		readOnlyTx);
+		txMap.put("find*", 		readOnlyTx);
+		source.setNameMap(txMap);
+
+		return source;
+	}
+
+	@Bean
+	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+	public TransactionInterceptor txAdvice(DataSourceTransactionManager druidTransactionManager, TransactionAttributeSource txSource) {
+		return new TransactionInterceptor(druidTransactionManager, txSource);
+	}
 
 
 

@@ -1,4 +1,4 @@
-package com.infuq.mybatis.mapper;
+package com.infuq.multxinterceptor.mapper;
 
 import com.infuq.mybatis.entity.Address;
 import org.apache.ibatis.annotations.Options;

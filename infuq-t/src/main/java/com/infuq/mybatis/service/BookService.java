@@ -3,10 +3,11 @@ package com.infuq.mybatis.service;
 
 public interface BookService {
 
-    void getList() throws Exception;
+	void findList() throws Exception;
 
-    void getAllAddress();
+	void getAllAddress();
 
 	int update();
+
 
 }
