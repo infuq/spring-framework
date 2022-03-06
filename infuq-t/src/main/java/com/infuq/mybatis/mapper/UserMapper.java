@@ -11,19 +11,19 @@ import java.util.List;
 public interface UserMapper {
 
 	@Options(flushCache = Options.FlushCachePolicy.TRUE)
-    @Select("select * from test_0.t_0 where id=12")
+    @Select("select * from db0.t0 where id=1")
     List<Address> getList();
 
 
 
-    @Select("select * from test_1.t_2")
+    @Select("select * from db1.t2")
     List<Address> getAllAddress();
 
-	@Update("update test_0.t_0 set address=\"北京\" where id=12")
+	@Update("update db0.t0 set address=\"北京\" where id=12")
 	int update();
 
 	@Options(flushCache = Options.FlushCachePolicy.TRUE)
-	@Select("select * from test_0.t_0 where id=12")
+	@Select("select * from db0.t0 where id=12")
 	List<Address> tmp();
 
 

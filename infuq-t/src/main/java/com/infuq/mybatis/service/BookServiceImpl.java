@@ -26,8 +26,8 @@ public class BookServiceImpl implements BookService, ApplicationContextAware {
 //		Thread.sleep(30000);
 		System.out.println(Thread.currentThread().getName() + "第一次查询");
         System.out.println(userMapper.getList());
-        System.out.println(userMapper.update());
-        System.out.println(userMapper.tmp());
+//        System.out.println(userMapper.update());
+//        System.out.println(userMapper.tmp());
 
 //		Thread.sleep(30000);
 
