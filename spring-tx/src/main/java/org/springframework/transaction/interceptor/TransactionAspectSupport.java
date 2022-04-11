@@ -337,17 +337,10 @@ public abstract class TransactionAspectSupport implements BeanFactoryAware, Init
 		final TransactionAttribute txAttr = (tas != null ? tas.getTransactionAttribute(method, targetClass) : null);
 		final TransactionManager tm = determineTransactionManager(txAttr);
 
-		logger.info("线程[" + Thread.currentThread() + "]在调用" + method.getName()
-						+ "方法时使用的事务管理器(TransactionManager)哈希值=" + tm.hashCode());
+		System.out.println("线程[" + Thread.currentThread() + "]在调用" + method.getName()
+						+ "方法时使用事务管理器(@" + Integer.toHexString(tm.hashCode()) + ")");
 
-/*
-		DataSourceTransactionManager manager = (DataSourceTransactionManager) tm;
-		DataSource dataSource = manager.getDataSource();
 
-		logger.info("线程[" + Thread.currentThread() + "]在调用" + method.getName()
-				+ "方法时使用的事务管理器(TransactionManager)哈希值=" + manager.hashCode()
-				+ ", 使用的数据源(dataSource)哈希值=" + dataSource.hashCode());
-*/
 		if (this.reactiveAdapterRegistry != null && tm instanceof ReactiveTransactionManager) {
 			ReactiveTransactionSupport txSupport = this.transactionSupportCache.computeIfAbsent(method, key -> {
 				if (KotlinDetector.isKotlinType(method.getDeclaringClass()) && KotlinDelegate.isSuspend(method)) {
@@ -371,6 +364,7 @@ public abstract class TransactionAspectSupport implements BeanFactoryAware, Init
 
 		if (txAttr == null || !(ptm instanceof CallbackPreferringPlatformTransactionManager)) {
 			// Standard transaction demarcation with getTransaction and commit/rollback calls.
+			// 开启事务
 			TransactionInfo txInfo = createTransactionIfNecessary(ptm, txAttr, joinpointIdentification);
 
 			Object retVal;
@@ -380,6 +374,7 @@ public abstract class TransactionAspectSupport implements BeanFactoryAware, Init
 				retVal = invocation.proceedWithInvocation();
 			}
 			catch (Throwable ex) {
+				// 回滚事务
 				// target invocation exception
 				completeTransactionAfterThrowing(txInfo, ex);
 				throw ex;
@@ -396,6 +391,7 @@ public abstract class TransactionAspectSupport implements BeanFactoryAware, Init
 				}
 			}
 
+			// 提交事务
 			commitTransactionAfterReturning(txInfo);
 			return retVal;
 		}
@@ -583,6 +579,7 @@ public abstract class TransactionAspectSupport implements BeanFactoryAware, Init
 		TransactionStatus status = null;
 		if (txAttr != null) {
 			if (tm != null) {
+				// 开启事务 org.springframework.transaction.support.AbstractPlatformTransactionManager.getTransaction
 				status = tm.getTransaction(txAttr);
 			}
 			else {
@@ -660,6 +657,7 @@ public abstract class TransactionAspectSupport implements BeanFactoryAware, Init
 			}
 			if (txInfo.transactionAttribute != null && txInfo.transactionAttribute.rollbackOn(ex)) {
 				try {
+					// 回滚事务
 					txInfo.getTransactionManager().rollback(txInfo.getTransactionStatus());
 				}
 				catch (TransactionSystemException ex2) {

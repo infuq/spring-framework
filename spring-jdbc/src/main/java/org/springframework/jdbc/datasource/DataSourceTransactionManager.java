@@ -260,7 +260,10 @@ public class DataSourceTransactionManager extends AbstractPlatformTransactionMan
 		try {
 			if (!txObject.hasConnectionHolder() ||
 					txObject.getConnectionHolder().isSynchronizedWithTransaction()) {
+				// 获取一个新连接
 				Connection newCon = obtainDataSource().getConnection();
+				System.out.println("线程[" + Thread.currentThread() + "]从事务管理器(@"+Integer.toHexString(this.hashCode())+")对应的数据源(@"+Integer.toHexString(obtainDataSource().hashCode())+")中获取一个新连接(@" + Integer.toHexString(newCon.hashCode()) + ")");
+
 				if (logger.isDebugEnabled()) {
 					logger.debug("Acquired Connection [" + newCon + "] for JDBC transaction");
 				}
@@ -270,9 +273,6 @@ public class DataSourceTransactionManager extends AbstractPlatformTransactionMan
 			txObject.getConnectionHolder().setSynchronizedWithTransaction(true);
 
 			con = txObject.getConnectionHolder().getConnection();
-
-
-			logger.info("线程[" + Thread.currentThread() + "]从事务管理器(哈希值="+this.hashCode()+")对应的数据源(哈希值="+this.getDataSource().hashCode()+")中获取一个连接,连接的哈希值=" + con.hashCode());
 
 			Integer previousIsolationLevel = DataSourceUtils.prepareConnectionForTransaction(con, definition);
 			txObject.setPreviousIsolationLevel(previousIsolationLevel);
@@ -286,6 +286,7 @@ public class DataSourceTransactionManager extends AbstractPlatformTransactionMan
 				if (logger.isDebugEnabled()) {
 					logger.debug("Switching JDBC Connection [" + con + "] to manual commit");
 				}
+				// 开启事务
 				con.setAutoCommit(false);
 			}
 
@@ -299,7 +300,12 @@ public class DataSourceTransactionManager extends AbstractPlatformTransactionMan
 
 			// Bind the connection holder to the thread.
 			if (txObject.isNewConnectionHolder()) {
-				TransactionSynchronizationManager.bindResource(obtainDataSource(), txObject.getConnectionHolder());
+				DataSource dataSource = obtainDataSource();
+				Connection connection = txObject.getConnectionHolder().getConnection();
+				System.out.println("线程[" + Thread.currentThread() + "]将数据源(@"+Integer.toHexString(dataSource.hashCode())+")->连接(@"+Integer.toHexString(connection.hashCode())+")放入到上下文");
+
+				// 连接信息绑定到当前线程上下文
+				TransactionSynchronizationManager.bindResource(dataSource, txObject.getConnectionHolder());
 			}
 		}
 
@@ -332,7 +338,7 @@ public class DataSourceTransactionManager extends AbstractPlatformTransactionMan
 			logger.debug("Committing JDBC transaction on Connection [" + con + "]");
 		}
 		try {
-			logger.info("连接(哈希值="+con.hashCode()+")进行事务提交");
+			System.out.println("连接(@"+Integer.toHexString(con.hashCode())+")进行事务提交...");
 			con.commit();
 		}
 		catch (SQLException ex) {
@@ -348,6 +354,7 @@ public class DataSourceTransactionManager extends AbstractPlatformTransactionMan
 			logger.debug("Rolling back JDBC transaction on Connection [" + con + "]");
 		}
 		try {
+			System.out.println("连接(@"+Integer.toHexString(con.hashCode())+")进行事务回滚...");
 			con.rollback();
 		}
 		catch (SQLException ex) {
@@ -417,7 +424,8 @@ public class DataSourceTransactionManager extends AbstractPlatformTransactionMan
 
 		if (isEnforceReadOnly() && definition.isReadOnly()) {
 			try (Statement stmt = con.createStatement()) {
-				stmt.executeUpdate("SET TRANSACTION READ ONLY");
+				String sql = "SET TRANSACTION READ ONLY";
+				stmt.executeUpdate(sql);
 			}
 		}
 	}

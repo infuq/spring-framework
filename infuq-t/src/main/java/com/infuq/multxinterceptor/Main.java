@@ -1,6 +1,7 @@
-package com.infuq.mybatis;
+package com.infuq.multxinterceptor;
 
-import com.infuq.mybatis.service.UserService;
+import com.infuq.multxinterceptor.service.BookService;
+import com.infuq.multxinterceptor.service.UserService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
@@ -31,7 +32,8 @@ public class Main {
 //		System.out.println("事务管理器(transactionManager)的数据源@" + Integer.toHexString(transactionManager.getDataSource().hashCode()));
 
 
-		applicationContext.getBean(UserService.class).getList();
+//		applicationContext.getBean(UserService.class).getList();
+		applicationContext.getBean(BookService.class).update();
 
 
 //        System.in.read();

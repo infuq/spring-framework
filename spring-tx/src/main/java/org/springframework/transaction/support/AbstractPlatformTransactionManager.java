@@ -373,7 +373,8 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 				boolean newSynchronization = (getTransactionSynchronization() != SYNCHRONIZATION_NEVER);
 				DefaultTransactionStatus status = newTransactionStatus(
 						def, transaction, true, newSynchronization, debugEnabled, suspendedResources);
-				//
+				// 开启事务
+				// org.springframework.jdbc.datasource.DataSourceTransactionManager.doBegin
 				doBegin(transaction, def);
 				prepareSynchronization(status, def);
 				return status;
@@ -742,6 +743,7 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 						logger.debug("Initiating transaction commit");
 					}
 					unexpectedRollback = status.isGlobalRollbackOnly();
+					// 提交事务
 					doCommit(status);
 				}
 				else if (isFailEarlyOnGlobalRollbackOnly()) {
@@ -781,6 +783,7 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 			// Trigger afterCommit callbacks, with an exception thrown there
 			// propagated to callers but the transaction still considered as committed.
 			try {
+				// 事务提交之后, 可以触发回调一些程序员设置的回调
 				triggerAfterCommit(status);
 			}
 			finally {
@@ -789,6 +792,7 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 
 		}
 		finally {
+			// 数据库连接放入数据库连接池
 			cleanupAfterCompletion(status);
 		}
 	}

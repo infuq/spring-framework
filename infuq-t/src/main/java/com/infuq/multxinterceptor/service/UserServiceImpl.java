@@ -1,4 +1,4 @@
-package com.infuq.mybatis.service;
+package com.infuq.multxinterceptor.service;
 
 
 import org.springframework.beans.BeansException;
@@ -16,6 +16,10 @@ public class UserServiceImpl implements UserService, ApplicationContextAware {
     @Autowired
     private BookService bookService;
 
+	@PostConstruct
+	private void init() {
+		System.out.println("===1===");
+	}
 
     @Override
     public void getList() throws Exception {

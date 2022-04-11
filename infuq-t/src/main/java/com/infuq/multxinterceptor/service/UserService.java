@@ -1,4 +1,4 @@
-package com.infuq.mybatis.service;
+package com.infuq.multxinterceptor.service;
 
 
 public interface UserService {

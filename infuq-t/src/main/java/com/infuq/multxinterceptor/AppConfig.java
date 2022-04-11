@@ -1,8 +1,8 @@
-package com.infuq.mybatis;
+package com.infuq.multxinterceptor;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.infuq.mybatis.service.UserService;
-import com.infuq.mybatis.service.UserServiceImpl;
+import com.infuq.multxinterceptor.service.UserService;
+import com.infuq.multxinterceptor.service.UserServiceImpl;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
@@ -25,15 +25,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 @EnableTransactionManagement
-@MapperScan("com.infuq.mybatis.mapper")
+@MapperScan("com.infuq.multxinterceptor.mapper")
 @ComponentScan
 public class AppConfig {
+
 
     @Bean
     public DataSource druidDataSource() {
         DruidDataSource dataSource = new DruidDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/db0?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/test_0?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true");
         dataSource.setUsername("root");
         dataSource.setPassword("9527");
 		dataSource.setInitialSize(3);
@@ -58,7 +59,7 @@ public class AppConfig {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/db1?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/test_1?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true");
         dataSource.setUsername("root");
         dataSource.setPassword("9527");
 
@@ -92,6 +93,53 @@ public class AppConfig {
     public UserService userService() {
         return new UserServiceImpl();
     }
+
+
+	@Bean
+	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+	public BeanFactoryTransactionAttributeSourceAdvisor myTransactionAdvisor(
+			TransactionAttributeSource txSource,
+			TransactionInterceptor txAdvice) {
+
+		BeanFactoryTransactionAttributeSourceAdvisor advisor = new BeanFactoryTransactionAttributeSourceAdvisor();
+		advisor.setTransactionAttributeSource(txSource);
+		advisor.setAdvice(txAdvice);
+
+		return advisor;
+	}
+
+	@Bean
+	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+	public TransactionAttributeSource txSource() {
+		NameMatchTransactionAttributeSource source = new NameMatchTransactionAttributeSource();
+
+		RuleBasedTransactionAttribute readOnlyTx = new RuleBasedTransactionAttribute();
+		readOnlyTx.setReadOnly(true);
+		readOnlyTx.setPropagationBehavior(TransactionDefinition.PROPAGATION_NOT_SUPPORTED);
+
+		RuleBasedTransactionAttribute requiredTx = new RuleBasedTransactionAttribute();
+		requiredTx.setRollbackRules(Collections.singletonList(new RollbackRuleAttribute(Exception.class)));
+		requiredTx.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		requiredTx.setTimeout(300);
+
+		Map<String, TransactionAttribute> txMap = new HashMap<>();
+		txMap.put("add*", 		requiredTx);
+		txMap.put("save*", 		requiredTx);
+		txMap.put("insert*", 	requiredTx);
+		txMap.put("update*", 	requiredTx);
+		txMap.put("delete*", 	requiredTx);
+		txMap.put("tmp*", 		readOnlyTx);
+		txMap.put("find*", 		readOnlyTx);
+		source.setNameMap(txMap);
+
+		return source;
+	}
+
+	@Bean
+	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+	public TransactionInterceptor txAdvice(DataSourceTransactionManager druidTransactionManager, TransactionAttributeSource txSource) {
+		return new TransactionInterceptor(druidTransactionManager, txSource);
+	}
 
 
 

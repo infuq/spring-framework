@@ -1,4 +1,4 @@
-package com.infuq.mybatis.entity;
+package com.infuq.mulsource.entity;
 
 
 public class Address {
