@@ -9,6 +9,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Role;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -33,7 +34,7 @@ public class AppConfig {
     public DataSource druidDataSource() {
         DruidDataSource dataSource = new DruidDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/db0?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true");
+        dataSource.setUrl("jdbc:mysql://192.168.0.102:3306/db0?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true");
         dataSource.setUsername("root");
         dataSource.setPassword("9527");
 		dataSource.setInitialSize(3);
@@ -58,7 +59,7 @@ public class AppConfig {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/db1?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true");
+        dataSource.setUrl("jdbc:mysql://192.168.0.102:3306/db1?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true");
         dataSource.setUsername("root");
         dataSource.setPassword("9527");
 
@@ -71,19 +72,28 @@ public class AppConfig {
 
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
         factoryBean.setDataSource(druidDataSource);
-        return factoryBean.getObject();
+        SqlSessionFactory sqlSessionFactory = factoryBean.getObject();
+        System.out.println("向Spring容器中放入SqlSessionFactory(@" + sqlSessionFactory.hashCode() + ")");
+        return sqlSessionFactory;
 
     }
 
+    @Primary
     @Bean
     public DataSourceTransactionManager druidTransactionManager(DataSource druidDataSource) {
-        return new DataSourceTransactionManager(druidDataSource);
+
+        DataSourceTransactionManager druidTransactionManager = new DataSourceTransactionManager(druidDataSource);
+
+        System.out.println("向Spring容器中放入事务管理器(@" + druidTransactionManager.hashCode() + ")");
+        return druidTransactionManager;
     }
 
 
     @Bean
     public DataSourceTransactionManager transactionManager(DataSource dataSource) {
-        return new DataSourceTransactionManager(dataSource);
+        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
+
+        return transactionManager;
     }
 
 

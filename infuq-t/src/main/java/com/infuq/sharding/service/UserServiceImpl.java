@@ -16,11 +16,12 @@ public class UserServiceImpl implements UserService, ApplicationContextAware {
     @Autowired
     private UserMapper userMapper;
 
-    @Transactional(transactionManager = "druidTransactionManager")
+//    @Transactional(transactionManager = "druidTransactionManager")
     @Override
     public void getList() {
 
         System.out.println(userMapper.getList());
+        System.out.println(userMapper.getListv2());
 
 //		getAllAddress();
 
@@ -31,13 +32,6 @@ public class UserServiceImpl implements UserService, ApplicationContextAware {
     }
 
 
-    @Transactional(transactionManager = "transactionManager")
-    @Override
-    public void getAllAddress() {
-
-        System.out.println(userMapper.getAllAddress());
-
-    }
 
 
     @Override

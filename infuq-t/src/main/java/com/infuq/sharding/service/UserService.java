@@ -5,6 +5,5 @@ public interface UserService {
 
     void getList();
 
-    void getAllAddress();
 
 }

@@ -11,7 +11,7 @@ import java.util.List;
 public interface UserMapper {
 
 	@Options(flushCache = Options.FlushCachePolicy.TRUE)
-    @Select("select * from db0.t0 where id=1")
+    @Select("select * from db0.t_1 where id=1")
     List<Address> getList();
 
 

@@ -8,13 +8,10 @@ import java.util.List;
 
 public interface UserMapper {
 
-    @Select("select * from test_0.t_0")
+    @Select("select * from t where u_id = 76564354")
     List<Address> getList();
 
-
-
-    @Select("select * from test_1.t_2")
-    List<Address> getAllAddress();
-
+    @Select("select * from t where u_id = 54325432")
+    List<Address> getListv2();
 
 }

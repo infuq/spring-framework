@@ -15,7 +15,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(ShardingConfig.class);
 
 //		DataSourceTransactionManager druidTransactionManager = (DataSourceTransactionManager) applicationContext.getBean("druidTransactionManager");
 
