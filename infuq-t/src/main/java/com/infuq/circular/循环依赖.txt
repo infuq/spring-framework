@@ -1,0 +1,3 @@
+
+ComputerService和MemoryService互相依赖. 实例化ComputerService之后, 属性注入MemoryService,
+于是实例化MemoryService, 属性注入ComputerService, 从三级缓存获取ComputerService, 调用Lambda表达式(AbstractAutowireCapableBeanFactory.getEarlyBeanReference).
